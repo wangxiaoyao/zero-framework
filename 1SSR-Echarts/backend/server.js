@@ -8,6 +8,7 @@ const generateEchart = require('./public/generateEchart')
 const server = http.createServer((req, res) => {
     // 处理静态资源
     const staticFilePath = path.join(__dirname, 'public', req.url);
+    // 判断路径存在并存在文件
     if (fs.existsSync(staticFilePath) && fs.lstatSync(staticFilePath).isFile()) {
         const ext = path.extname(req.url);
         const contentType = {

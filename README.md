@@ -4,9 +4,7 @@
 
 ##  一 SSR-Echarts
 
-### 1 项目核心点
-
-##### 1.1 SSR与CSR
+##### 1 SSR与CSR
 
 - 工作流的不同
 - SEO优化
@@ -18,11 +16,18 @@
 - Next：增量静态生成 ISR（Incremental Static Regeneration） = SSR + 静态生成 static generation，优势。 （use client与SSR冲突的解决）
 - 什么是静态网站和动态网站
 
-##### 1.2 使用SSR对Echarts的优化：
+##### 2 使用SSR对Echarts的优化：
 
 - 方案1:转图片
 - 方案2:架构 + 动态数据
 
 
-## 二 数据data分块上传
+## 二 数据分块上传(upload-chunk)
 
+1 技术栈
+
+- 前端：HTML, JavaScript (原生或配合框架如 React)
+- 后端：Node.js (可以使用 Express 框架)
+- 通信协议：HTTP
+
+2 
