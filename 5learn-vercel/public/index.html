@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>learn vercel</title>
+    <!-- Meta Description -->
+    <meta name="description" content="learn vercel">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .site-name {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Main Content Section -->
+    <div class="pt-20 flex justify-center items-center min-h-screen">
+        <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-4xl">
+
+            <!-- Generate Email Button -->
+            <div class="mb-6 text-center">
+                <button id="generate-email"
+                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm transition duration-300">
+                    Generate New Email
+                </button>
+            </div>
+
+            <script>
+                const generateButton = document.getElementById('generate-email');
+                // Generate new email
+                generateButton.addEventListener('click', async () => {
+                    try {
+                        const response = await fetch('/api/generate-email');
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        console.log('Generate Email Response:', data);
+
+                        if (data.result && data.result.email) {
+                            currentEmail = data.result.email;
+                            tempEmailElement.textContent = currentEmail;
+                            tempEmailElement.classList.remove('text-gray-400');
+                            tempEmailElement.classList.add('text-gray-700');
+                            copyButton.disabled = false;
+                            alert(translations[currentLanguage].newEmailGenerated);
+                        } else if (data.error) {
+                            throw new Error(data.error);
+                        } else {
+                            throw new Error('Unexpected response format');
+                        }
+                    } catch (error) {
+                        console.error('Error generating email:', error);
+                        alert(`${translations[currentLanguage].failedToGenerate}: ${error.message}`);
+                    }
+                });
+
+            </script>
+</body>
+
+</html>
