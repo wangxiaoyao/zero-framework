@@ -38,15 +38,8 @@
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
                         const data = await response.json();
-                        console.log('Generate Email Response:', data);
-
                         if (data.result && data.result.email) {
-                            currentEmail = data.result.email;
-                            tempEmailElement.textContent = currentEmail;
-                            tempEmailElement.classList.remove('text-gray-400');
-                            tempEmailElement.classList.add('text-gray-700');
-                            copyButton.disabled = false;
-                            alert(translations[currentLanguage].newEmailGenerated);
+                            alert('Generate Email successfullly', data.result.email);
                         } else if (data.error) {
                             throw new Error(data.error);
                         } else {
@@ -54,7 +47,7 @@
                         }
                     } catch (error) {
                         console.error('Error generating email:', error);
-                        alert(`${translations[currentLanguage].failedToGenerate}: ${error.message}`);
+                        alert(`${error.message}`);
                     }
                 });
 
