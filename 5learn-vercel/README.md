@@ -11,8 +11,8 @@ vercel：分离架构服务网站
 ### 1 项目划分：
 
 - next.js 全栈架构
-- 前端框架（React.js/vue.js） + express 前后端分离架构，前端框架需要打包。
-- 无框架 + express  前后端分离架构。静态资源无需打包。
+- 前端框架（React.js/vue.js） + express/next生成API   前后端分离架构，前端框架需要打包。
+- 无框架 + express/next生成API    前后端分离架构。静态资源无需打包。
 
 全栈框架无需配置。 以下针对前后端分离项目：如何放在同一个项目，并部署在vercel。
 
@@ -57,9 +57,24 @@ vercel：分离架构服务网站
 
 - 静态/框架，放在/client文件夹。
 
-- API层资源，放在/api文件夹: 修改API：api/index.js，最后补上导出应用实例：否则500。 ```module.exports = app;```
+- API层资源，放在/api文件夹: 修改API：api/index.js。
 
+  两种方案做API 路由。
 
+  1 如果是迁移，使用了express框架。需要在最后补上导出APP：否则500。 ```module.exports = app;```
+
+  2 如果使用next API，只需要关注文件名 + 路径的RESTfull API 即可。
+
+  ```js
+  ## 路径：/api/users/index.js   API：method:get => /api/users
+  export default function handle(req,res){
+  	if(req.method === 'GET'){
+  		res.status(200).json('数据')
+  	}
+  }
+  ```
+
+  
 
 ### 2 项目配置vercel.json
 
@@ -121,11 +136,11 @@ vercel：分离架构服务网站
 
 1 静态资源的处理：通过：@vercel/static构建插件处理对应的路径的资源。必须包含index.html。
 
- 对于react框架，需要通过@vercel/static-build构建插件处理：这个插件表示运行框架的package.json中的 ```npm run build``` 用来构建。然后将输出的内容作为静态资源部署CND。但是一定要注意配置：config-distDir: 用来指定构建的目录是哪一个。react默认输出到build文件夹。否则vercel 无法拿到构建的资源。从而出现白屏（无static：js，css文件）。
+ 对于react框架，需要通过@vercel/static-build构建插件处理：这个插件表示运行框架的package.json中的 ```npm run build``` 用来构建。然后将输出的内容作为静态资源部署CND。但是一定要注意配置：config-distDir: 用来指定构建的目录是哪一个。react默认输出到build文件夹。部署平台vercel知道在哪里寻找最终的可部署文件。否则拿不到static：js，css文件。从而出现白屏（仅有index.html）。
 
 路由访问：对应的资源
 
-2 API处理：通过@vercel/node 用于部署 **Serverless 函数**,每个函数文件会被打包为一个单独的 API 端点。需要有export 导出。
+2 API处理：通过@vercel/node 用于部署 **Serverless 函数**,Vercel 会将 api 目录视为 Serverless 函数的目录。每个函数文件会被打包为一个单独的 API 端点。需要有导出。
 
 路由访问：但凡以api开头的请求均转移到API处理。
 
