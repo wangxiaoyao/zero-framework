@@ -137,6 +137,7 @@ vercel：分离架构服务网站
 1 静态资源的处理：通过：@vercel/static构建插件处理对应的路径的资源。必须包含index.html。
 
  对于react框架，需要通过@vercel/static-build构建插件处理：这个插件表示运行框架的package.json中的 ```npm run build``` 用来构建。然后将输出的内容作为静态资源部署CND。但是一定要注意配置：config-distDir: 用来指定构建的目录是哪一个。react默认输出到build文件夹。部署平台vercel知道在哪里寻找最终的可部署文件。否则拿不到static：js，css文件。从而出现白屏（仅有index.html）。
+ vercel拿到之后统一放在/client的根目录 而不是/client/build。这是 Vercel 的预期行为。（查看vercel官网的output即可）
 
 路由访问：对应的资源
 

@@ -3,9 +3,9 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const app = express();
+const app = express()
+app.use(express.json())
 
-app.use(express.json());
 app.use(express.static('public'));
 
 const API_KEY = process.env.API_KEY;
